@@ -14,47 +14,48 @@ var app = ews.app;
 var Cylon = require('cylon');
 
 
-var robot = Cylon.robot ({
-  connections: {
-    arduino: { adaptor: 'firmata', port: 1411}
-  },
-
-  devices: {
-    led: { driver: 'led', pin: 2}
-  },
-
-  work: function(my) {
-    every((1).second(), function() {
-      my.led.toggle();
-    });
-
-    every((8).second(), function() {
-      my.led.turnOff();
-    });
-
-    every((10).second(), function() {
-      my.led.turnOn();
-    });
-
-  }
-}). start();
-
 // Set up the '/ws' resource to handle web socket connections
 app.ws('/ws', function (ws, req) {
   // A message has been received from a client
   ws.on('message', function (msg) {
     var clients = ews.getWss('/ws').clients;
     // Debug print it
-    sharp('testimage.png')
-  .resize(300, 200)
-  .toFile('output.jpg', function(err) {
-    // output.jpg is a 300 pixels wide and 200 pixels high image
-    // containing a scaled and cropped version of input.jpg
-  });
-if(msg){
+
+    var robot = Cylon.robot ({
+      connections: {
+        arduino: { adaptor: 'firmata', port: 1411}
+      },
+    
+      devices: {
+        led: { driver: 'led', pin: 2}
+      },
+    
+      work: function(my) {
+    
+        every((1).second(), function() {
+          my.led.toggle();
+        });
+    
+        every((1).second(), function() {
+          console.log(msg);
+          if(msg==="turn off") {
+            my.led.turnOff();
+          }
+        });
+    
+        every((1).second(), function() {
+          if(msg==="turn on") {
+            my.led.turnOn();
+          }
+        });
+    
+      }
+    }). start();
+
+/*if(msg){
   console.log(msg);
 }
-    console.log(new Date().toLocaleTimeString() + '> ' + msg);
+    console.log(new Date().toLocaleTimeString() + '> ' + msg);*/
 
     // Broadcast it to all other clients
     clients.forEach(c => {

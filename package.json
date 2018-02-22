@@ -10,6 +10,10 @@
   "dependencies": {
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
+    "cylon": "^1.3.0",
+    "cylon-firmata": "^0.24.0",
+    "cylon-gpio": "^0.30.1",
+    "cylon-i2c": "^0.26.1",
     "debug": "~2.6.9",
     "express": "~4.15.5",
     "express-ws": "^3.0.0",
