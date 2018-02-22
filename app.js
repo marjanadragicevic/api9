@@ -11,6 +11,26 @@ var ews = expressWs(express());
 var app = ews.app;
 
 
+var Cylon = require('cylon');
+
+
+var robot = Cylon.robot ({
+  connections: {
+    arduino: { adaptor: 'firmata', port: 1411}
+  },
+
+  devices: {
+    led: { driver: 'led', pin: 2}
+  },
+
+  work: function(my) {
+    every((1).second(), function() {
+      my.led.toggle();
+    });
+  }
+}). start();
+
+
 
 // Set up the '/ws' resource to handle web socket connections
 app.ws('/ws', function (ws, req) {
