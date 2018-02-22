@@ -27,10 +27,17 @@ var robot = Cylon.robot ({
     every((1).second(), function() {
       my.led.toggle();
     });
+
+    every((8).second(), function() {
+      my.led.turnOff();
+    });
+
+    every((10).second(), function() {
+      my.led.turnOn();
+    });
+
   }
 }). start();
-
-
 
 // Set up the '/ws' resource to handle web socket connections
 app.ws('/ws', function (ws, req) {
